@@ -80,14 +80,13 @@ class NotificationStorage(private val context: Context, private val jsonMapper: 
 
   fun writeActionGroup(actions: List<ActionType>) {
     for (type in actions) {
-      val i = type.id
       val editor = getStorage(ACTION_TYPES_ID + type.id).edit()
       editor.clear()
       editor.putInt("count", type.actions.size)
-      for (action in type.actions) {
-        editor.putString("id$i", action.id)
-        editor.putString("title$i", action.title)
-        editor.putBoolean("input$i", action.input ?: false)
+      for (i in 0 until type.actions.size) {
+        editor.putString("id$i", type.actions[i].id)
+        editor.putString("title$i", type.actions[i].title)
+        editor.putBoolean("input$i", type.actions[i].input ?: false)
       }
       editor.apply()
     }
